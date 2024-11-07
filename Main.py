@@ -1,7 +1,10 @@
 import pyaudio
 from Logic.Vocal_Gestion.ListenerAudio import ListenerAudio
-from Logic.Vocal_Gestion.StackWav import StackWav
+from Logic.Vocal_Gestion.Stack.StackWav import StackWav
+from Logic.SpeechToText.AudioTranscriber import AudioTranscriber
 from pynput import keyboard
+import os
+import threading
 
 class AudioListenerManager:
     def __init__(self):
@@ -38,7 +41,22 @@ class AudioListenerManager:
         """Method to start the whole listening process and manage the thread."""
         self.keyboard_listener.join()  # Wait for keyboard listener to stop
 
+    def AudioTranscriber(self):
+        audio_directory = "C:\\Python\\SpeechRecognition\\wav"  
+        output_text_file = "C:\\Python\\SpeechRecognition\\transcription\\transcription.txt"
+        
+        transcriber = AudioTranscriber(audio_directory, output_text_file)
+        while self.listener_bool:
+            if any(os.scandir(audio_directory)):
+                transcriber.transcribe_oldest_audio()
+
 if __name__ == '__main__':
     audio_listener_manager = AudioListenerManager()
-    audio_listener_manager.start_listening()
-     
+    AudioThread = threading.Thread(target=audio_listener_manager.start_listening)
+    TranscriberThread = threading.Thread(target=audio_listener_manager.AudioTranscriber)
+
+    AudioThread.start()
+    TranscriberThread.start()
+
+    AudioThread.join()
+    TranscriberThread.join()

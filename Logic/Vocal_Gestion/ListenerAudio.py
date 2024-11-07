@@ -1,7 +1,8 @@
 import pyaudio
 import wave
-from Logic.Vocal_Gestion.StackWav import StackWav
+from Logic.Vocal_Gestion.Stack.StackWav import StackWav
 import random
+import os
 
 class ListenerAudio:
     
@@ -38,8 +39,13 @@ class ListenerAudio:
         # Terminate the PortAudio interface
         self.p.terminate()
         print('... Finished recording')
-        # Save the recorded data as a WAV file
-        self.filename = str(random.randint(0,1000000000)) +".wav"
+
+        # Vérifier si le dossier 'wav' existe, sinon le créer
+        if not os.path.exists('wav'):
+            os.makedirs('wav')
+
+        # Enregistrer les données enregistrées sous forme de fichier WAV
+        self.filename = os.path.join('wav', str(random.randint(0, 1000000000)) + ".wav")
         wf = wave.open(self.filename, 'wb')
         wf.setnchannels(self.channels)
         wf.setsampwidth(self.p.get_sample_size(self.sample_format))
@@ -47,4 +53,5 @@ class ListenerAudio:
         wf.writeframes(b''.join(frames))
         self.stack.StackAppend(self.filename)
         wf.close()
+
         

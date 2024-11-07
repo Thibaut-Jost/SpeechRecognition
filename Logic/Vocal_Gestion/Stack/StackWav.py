@@ -1,4 +1,4 @@
-from Logic.Stack import Stack
+from Logic.Vocal_Gestion.Stack.Stack import Stack
 
 class StackWav:
     
