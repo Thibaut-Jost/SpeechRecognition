@@ -3,6 +3,7 @@ import wave
 from Logic.Vocal_Gestion.Stack.StackWav import StackWav
 import random
 import os
+import time
 
 class ListenerAudio:
     
@@ -18,6 +19,7 @@ class ListenerAudio:
     
     def StartAudio(self):
         self.p = pyaudio.PyAudio()
+        time.sleep(2)
         print('Start Recording ...')
         
         stream = self.p.open(format=self.sample_format,

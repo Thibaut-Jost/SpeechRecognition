@@ -1,5 +1,5 @@
-from Search.Receiver_Search import Start_Search 
-from SoftwareReceiver_Software import Start_Software
+from Logic.Vocal_Gestion.Search.Receiver_Search import Start_Search 
+from Logic.Vocal_Gestion.Software.Receiver_Software import Start_Software
 
 
 def Decision_Module (Choice) :

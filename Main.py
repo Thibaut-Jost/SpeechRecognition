@@ -12,9 +12,9 @@ class AudioListenerManager:
         self.stack = StackWav()
         self.listener_audio = ListenerAudio(
             chunk=1024, 
-            sample_format=pyaudio.paInt16, 
-            channels=2, 
-            fs=44100, 
+            sample_format=pyaudio.paFloat32, 
+            channels=1, 
+            fs=96000, 
             seconds=2, 
             filename="output.wav",
             p=pyaudio.PyAudio(),
@@ -42,12 +42,11 @@ class AudioListenerManager:
         self.keyboard_listener.join()  # Wait for keyboard listener to stop
 
     def AudioTranscriber(self):
-        audio_directory = "C:\\Python\\SpeechRecognition\\wav"  
-        output_text_file = "C:\\Python\\SpeechRecognition\\transcription\\transcription.txt"
+        output_text_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Transcription", "transcription.txt")
         
-        transcriber = AudioTranscriber(audio_directory, output_text_file)
+        transcriber = AudioTranscriber(output_text_file)
         while self.listener_bool:
-            if any(os.scandir(audio_directory)):
+            if os.path.exists('wav'):
                 transcriber.transcribe_oldest_audio()
 
 if __name__ == '__main__':
