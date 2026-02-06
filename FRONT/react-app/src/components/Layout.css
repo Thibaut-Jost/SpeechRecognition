@@ -1,0 +1,28 @@
+.layout {
+    display: grid;
+    grid-template-columns: 240px 1fr 240px;
+    grid-template-rows: 1fr auto;
+    min-height: 100vh;
+    gap: 16px;
+    align-items: start;
+}
+
+aside {
+    grid-column: 1;
+}
+
+main {
+    grid-column: 2;
+    text-align: center;
+}
+
+section {
+    grid-column: 3;
+    text-align: right;
+}
+
+footer {
+    grid-column: 1 / -1;
+    align-self: end;
+    text-align: center;
+}
