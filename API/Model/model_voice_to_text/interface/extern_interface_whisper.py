@@ -18,11 +18,3 @@ class ExternInterfaceWhisper(ABC):
         Args:
             buffer (bytearray): buffer de frame_bytes
         """
-
-    @abstractmethod
-    def get_last_input(self) -> str:
-        """Permet d'avoir la dernière commande vocal en format str
-
-        Returns:
-            str: string contenant la dernier demande
-        """
