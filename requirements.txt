@@ -1,0 +1,6 @@
+# Core runtime dependencies
+numpy
+sounddevice
+webrtcvad
+faster-whisper
+librosa

@@ -6,7 +6,7 @@ import faster_whisper as whisper
 import numpy as np
 from numpy.typing import NDArray
 import librosa
-from extern_interface_whisper import ExternInterfaceWhisper
+from API.Model.model_voice_to_text.interface.extern_interface_whisper import ExternInterfaceWhisper
 
 class PostBufferWhisper(ExternInterfaceWhisper):
     """Class de gestion de buffer pour whisper
@@ -23,7 +23,7 @@ class PostBufferWhisper(ExternInterfaceWhisper):
 
     def __resampling(self, audio_float32:bytearray) -> bytearray:
         """
-        permet de re-sampler le buffer pour passé de 48000 Hz à 16000
+        Permet de re-sampler le buffer pour passé de 48000 Hz à 16000
         """
         audio_float32_rs:np.ndarray  = librosa.resample(
             audio_float32,
@@ -38,6 +38,7 @@ class PostBufferWhisper(ExternInterfaceWhisper):
         Args:
             buffer (bytearray): _description_
         """
+        full_text : str = ""
         audio_int16:NDArray[np.int16] = np.frombuffer(buffer, dtype=np.int16)
         # Conversion vers float32 normalisé (-1.0 à 1.0)
         audio_float32:NDArray[np.float32] = audio_int16.astype(np.float32) / 32768.0
@@ -49,8 +50,5 @@ class PostBufferWhisper(ExternInterfaceWhisper):
             language="fr"
         )
         for segment in segments:
-            print(segment.text)
-
-    def get_last_input(self):
-        """_summary_
-        """
+            full_text+=segment.text
+        return full_text
